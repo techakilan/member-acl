@@ -37,9 +37,12 @@ abstract class Scripts_Loader_Base
 
     public $scripts;
 
+    public $localized_scripts;
+
     public function __construct($required_scripts, $plugin_version){
         $this->styles = $required_scripts['styles'];
         $this->scripts = $required_scripts['scripts'];
+        $this->localized_scripts = $required_scripts['localized_scripts'];
         $this->plugin_version = $plugin_version;
     }
 

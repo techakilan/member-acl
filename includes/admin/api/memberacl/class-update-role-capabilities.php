@@ -54,6 +54,8 @@ class Update_Role_Capabilities extends Admin_Ajax_Handler_Base
                 )):
                 if (isset($_POST['action_type']) && $_POST['action_type'] == "delete_role") {
                     $response = $this->remove_role($_POST['selected_member_role']);
+                } else if (isset($_POST['action_type']) && $_POST['action_type'] == "rename_role") {
+                    $response = $this->rename_role('Test_All', $_POST['rename_role_value']);
                 }
                 break;
             //Add role page actions
@@ -202,9 +204,20 @@ class Update_Role_Capabilities extends Admin_Ajax_Handler_Base
         ];
         return $response;
     }
-    public function add_action($action)
+    private function rename_role($old_rolename, $rename_role_value)
     {
 
-    }
+        $display_name = trim($rename_role_value);
+        $role_name = preg_replace('/\s{1,}/', '_', $display_name);
+        $display_name = esc_html__($display_name, Member_ACL_TEXTDOMAIN);
 
+        /* Need dedicated db table to save role details. this abstraction table will be used by plugin function before 
+        the regular method of defult wp_role objects is called. */
+        $response = [
+            'error' => true,
+            'message' => 'Feature yet to be implemented as new plugin',
+        ];
+
+        return $response;
+    }
 }

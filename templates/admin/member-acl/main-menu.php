@@ -20,18 +20,19 @@ if (isset($params['roles_caps_master']) && isset($params['roles_caps_master']['c
 <h2 class='screen-reader-text'>List of Custom Roles</h2>
 <form method="post" class="member-acl-role-form">
 
-<table class="wp-list-table widefat fixed striped " style="width:25%">
+<table class="wp-list-table widefat fixed striped " >
 	<thead>
 	<tr>
-		<td  id='cb_role' class='manage-column column-cb check-column'>            
+		<td  id='cb_role' class='manage-column column-cb check-column' style="display:none;">            
             <input id="member_acl_cb_role_select_all" type="checkbox" />
         </td>
         <th scope="col" id='member_acl_role_name' class='manage-column column-title column-primary sortable desc'>
             <a href="#">
-                <span>Role Name</span>
-                <span class="sorting-indicator"></span>
+                <span><strong>Role Name</strong></span>
+                <span class="sorting-indicator" style="display:none;" ></span>
             </a>
         </th>
+        </tr>
         </thead>
 
 	<tbody id="the-list">
@@ -40,6 +41,7 @@ if (isset($params['roles_caps_master']) && isset($params['roles_caps_master']['c
         <input type="hidden" id="action_type" name="action_type" value=""/> 
         <input type="hidden" id="selected_member_role" name="selected_member_role" value=""/> 
         <input type="hidden" id="selected_member_roles" name="selected_member_roles" value=""/>
+        <input type="hidden" id="rename_role_value" name="rename_role_value" value=""/>
     <?php
         
     foreach ($params['roles_caps_master']['custom_roles'] as $key=>$role) {
@@ -48,13 +50,17 @@ if (isset($params['roles_caps_master']) && isset($params['roles_caps_master']['c
         
 
 		<tr>
-            <th scope="row" class="check-column">                      
+            <th scope="row" class="check-column" style="display:none;">                      
                 <input id="member_acl_cb_select<?= $key?>" type="checkbox" name="roles[]" value="1" />
                 
             </th>
             <td >
                 
-                <strong><a class="row-title" href=<?php echo menu_page_url('member-acl-edit-role',false)."&selected_role_id=".$key; ?>><?=$role['name']?></a></strong>
+                <strong>
+                    <a class="row-title" href=<?php echo menu_page_url('member-acl-edit-role',false)."&selected_role_id=".$key; ?>>
+                        <?=$role['name']?>
+                    </a>
+                </strong>
 
                         <div class="hidden" id="inline_$i">
 	                       HERE
@@ -63,6 +69,11 @@ if (isset($params['roles_caps_master']) && isset($params['roles_caps_master']['c
                     <span >
                             <a href=<?php echo menu_page_url('member-acl-add-role',false); ?> class="edit-role-main-page-button" aria-label="Add New" aria-expanded="false">
                                 Add New
+                            </button> | 
+                        </span> 
+                        <span >
+                            <a href="#" class="rename-role-main-page-button" aria-label="Rename" aria-expanded="false">
+                                Rename
                             </button> | 
                         </span> 
                         <span >
@@ -88,16 +99,17 @@ if (isset($params['roles_caps_master']) && isset($params['roles_caps_master']['c
 
 	<tfoot>
 	<tr>
-		<td   class='manage-column column-cb check-column'>
+		<td   class='manage-column column-cb check-column' style="display:none;">
             <label class="screen-reader-text" for="cb-select-all-2">Select All</label>
             <input id="cb-select-all-2" type="checkbox" />
         </td>
         <th scope="col"  class='manage-column column-title column-primary sortable desc'>
             <a href="#">
                 <span>Role Name</span>
-                <span class="sorting-indicator"></span>
+                <span class="sorting-indicator" style="display:none;"></span>
             </a>
         </th>
+        </tr>
         </tfoot>
 
 </table>
@@ -117,4 +129,32 @@ if (isset($params['roles_caps_master']) && isset($params['roles_caps_master']['c
         </div>
     </div>
 </div>
+<div class="modal-container">
+    <div class="modal">
+        <h3>Rename Role</h3>
+        <div>
+            <p>Feature to be implemented as part of another plugin later- This plugin will be extended from this plugin.</p>
+            <p ><label>New Role Name:</label><input type="text" id="rename-role-value-input" /></p>
+        </div>
+        
+        <div class='modal-btn-container' >
+            <button class="modal-cancel-btn button button-primary">Cancel</button>
+            <button class="modal-rename-role-ok-button button-primary" data-rename-value="">Rename</button>
+        </div>
+    </div>
+</div>
+<div class="modal-container">
+    <div class="modal">
+        <h3>Featuret to be implemented as part of another plugin later</h3>
+        <p>
+        Will be implemented as a new plugin:
+          This feature requires changes to database during activation of plugin:
+        </p>
+       
+        <div class='modal-btn-container' >
+            <button class="modal-cancel-btn button button-primary">OK</button>            
+        </div>
+    </div>
+</div>
+		
 			

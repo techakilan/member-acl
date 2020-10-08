@@ -40,6 +40,9 @@ class Scripts_Loader extends Scripts_Loader_Base
         foreach($this->scripts as $key=>$script_src){
             $this->enqueue_scripts($key, plugin_dir_url(__FILE__) . '../../../../'.$script_src, array(), $this->plugin_version, true);
         }
+        foreach($this->localized_scripts as $key=>$localized_scripts_values){
+            wp_localize_script( $localized_scripts_values['script_name'], $localized_scripts_values['object_name'], $localized_scripts_values['object_props'] );
+        }
 
 
     }

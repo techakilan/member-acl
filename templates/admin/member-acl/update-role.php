@@ -323,7 +323,8 @@
     <div class="modal">
         <h3>Role Updated</h3>
         <p>
-          The role was updated successfully
+        Will be implemented later:
+          This feature requires changes to database during activation of plugin:
         </p>
        
         <div class='modal-btn-container' >

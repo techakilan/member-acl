@@ -107,6 +107,7 @@ final class Member_ACL_Plugin
 
         $pluginConfig = new Plugin_Config();
         $pluginConfig->configure();
+        
         (new Scripts_Loader($pluginConfig->required_scripts, $pluginConfig->version))->register();
 
         //Register Admin Menu and Submenu Classes

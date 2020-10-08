@@ -16,7 +16,6 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-
 /**
  * Class Plugin_Config.
  * Configuration elements like custom post types, admin menu,
@@ -35,7 +34,7 @@ class Plugin_Config
      * @var string current version number of the plugin.
      * @since      1.0
      */
-    public $version ='1.0';
+    public $version = '1.0';
     /**
      * Define admin_menu_pages property in Plugin_Config class.
      * This property use to configure element admin menu
@@ -65,7 +64,7 @@ class Plugin_Config
     public $custom_user_roles;
 
     /**
-     * Default user roles as defined in wordpress 
+     * Default user roles as defined in wordpress
      *
      * @access public
      * @var array It has all of Default user roles as defined in wordpres
@@ -141,7 +140,7 @@ class Plugin_Config
                     'edit_others_posts' => true,
                     'edit_published_posts' => true,
                 ],
-                
+
             ],
             'member_acl_member' => [
                 'role' => 'member_acl_member',
@@ -149,9 +148,9 @@ class Plugin_Config
                 'capabilities' => [
                     'read' => true,
                     'edit_posts' => true,
-                    
+
                 ],
-                
+
             ],
         ];
         $this->default_wp_user_roles = [
@@ -162,12 +161,23 @@ class Plugin_Config
             'subscriber',
         ];
         $this->required_scripts = [
-            'styles' =>[
-                'member-acl-main-css'=>'assets/admin/css/member-acl-main.css',
+            'styles' => [
+                'member-acl-main-css' => 'assets/admin/css/member-acl-main.css',
             ],
-            'scripts' =>[
-                'member-acl-main-js'=>'assets/admin/js/member-acl-main.js',
-            ]
+            'scripts' => [
+                'member-acl-main-js' => 'assets/admin/js/member-acl-main.js',
+            ],
+            'localized_scripts' => [
+                'ajax_url' =>
+                [
+                    'script_name' => 'member-acl-main-js',
+                    'object_name' => 'ajax_obj',
+                    'object_props' => [
+                        'ajax_url' => admin_url('admin-ajax.php'),
+                    ],
+
+                ],
+            ],
         ];
 
     }

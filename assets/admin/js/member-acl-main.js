@@ -36,7 +36,7 @@ jQuery(document).ready(function ($) {
     var $form = $(".update-role-form");
 
     $.post(
-      "http://localhost/blog/wp-admin/admin-ajax.php",
+      ajax_obj.ajax_url,
       $form.serialize(),
 
       function (data) {
@@ -69,7 +69,7 @@ jQuery(document).ready(function ($) {
       var $form = $(".update-role-form");
 
       $.post(
-        "http://localhost/blog/wp-admin/admin-ajax.php",
+        ajax_obj.ajax_url,
         $form.serialize(),
 
         function (data) {
@@ -139,7 +139,7 @@ jQuery(document).ready(function ($) {
     var $form = $(".update-role-form");
     console.log($form.serialize());
     $.post(
-      "http://localhost/blog/wp-admin/admin-ajax.php",
+      ajax_obj.ajax_url,
       $form.serialize(),
       function(data){
         console.log(data);
@@ -156,7 +156,7 @@ jQuery(document).ready(function ($) {
     $("#action_type").val("delete_role");    
     var $form = $(".member-acl-role-form");
     $.post(
-      "http://localhost/blog/wp-admin/admin-ajax.php",
+      ajax_obj.ajax_url,
       $form.serialize(),
       function(data){
         console.log(data);
@@ -171,8 +171,32 @@ jQuery(document).ready(function ($) {
     $(".modal-container").removeClass("modal-show");
   });
 
-  //Event triggered when delete link is clicked in Member ACL Main Page
+  //Event triggered when Rename link is clicked in Member ACL Main Page
  
+  $(".rename-role-main-page-button").on("click", (e) => {
+    e.preventDefault();
+    $("[class~='modal-container']")[1].classList.add('modal-show');
+  });
 
+  //Event triggered when ok is clicked in modal in Member ACL Main Page
+ 
+  $(".modal-rename-role-ok-button").on("click", (e) => {
+    e.preventDefault();
+    $(".modal-container").removeClass("modal-show");
+    var rename_role_value = $("#rename-role-value-input").val();
+    $("#rename_role_value").val(rename_role_value);
+    $("#action_type").val("rename_role");    
+    var $form = $(".member-acl-role-form");
+    $.post(
+      ajax_obj.ajax_url,
+      $form.serialize(),
+      function(data){
+        console.log(data);
+        alert(data.message);
+      },
+      "json"
+    ); 
+  
+  });
 
 }); //End of jQuery assign as $ at the beginning of this file
