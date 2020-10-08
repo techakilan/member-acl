@@ -1,6 +1,5 @@
 jQuery(document).ready(function ($) {
-
-      //on change function on member role select in Member ACL Edit Role Page
+  //on change function on member role select in Member ACL Edit Role Page
   $("#selected_member_role").change(function () {
     var selected_member_role = $("#selected_member_role").val();
     var selected_member_cap = {};
@@ -23,11 +22,18 @@ jQuery(document).ready(function ($) {
       $(".delete-role-button").prop("disabled", false);
     }
   });
-  
-  if(select_member_role_trigger!=null){
-    $("#selected_member_role").val(select_member_role_trigger).trigger('change');
+
+var urlParams = new URLSearchParams(window.location.search);
+var entries = urlParams.entries();
+for(pair of entries) { 
+
+  if(pair[0]=='selected_role_id'){
+    $("#selected_member_role")
+    .val(pair[1])
+    .trigger("change");
   } 
-  
+}
+
 
   //Event triggered when update role button is clicked in Member ACL Edit Role Page
   $(".update-role-button").on("click", function (e) {
@@ -42,7 +48,7 @@ jQuery(document).ready(function ($) {
       function (data) {
         //defined in template file
         roles_caps_master = data.roles_caps_master;
-        $("[class~='modal-container']")[2].classList.add('modal-show');
+        $("[class~='modal-container']")[2].classList.add("modal-show");
       },
       "json"
     );
@@ -85,22 +91,19 @@ jQuery(document).ready(function ($) {
               $("<option selected></option>")
                 .val(data.role_name)
                 .html(data.display_name)
-            );            
+            );
             $(".update-role-button").prop("disabled", false);
             $(".delete-role-button").prop("disabled", false);
-            $("[class~='modal-container']")[1].classList.add('modal-show');
-          }
-          else{
+            $("[class~='modal-container']")[1].classList.add("modal-show");
+          } else {
             //show add role failed modal
-            $("[class~='modal-container']")[1].classList.add('modal-show');
+            $("[class~='modal-container']")[1].classList.add("modal-show");
           }
-         
         },
         "json"
       );
     }
   });
-
 
   //Event triggered when cancel add role button is clicked in Member ACL Edit Role Page
 
@@ -113,57 +116,54 @@ jQuery(document).ready(function ($) {
     $(this).hide();
   });
 
-  //Event triggered when delete role button is clicked in Member ACL Edit Role Page 
+  //Event triggered when delete role button is clicked in Member ACL Edit Role Page
   $(".delete-role-button").on("click", (e) => {
     e.preventDefault();
-    $("[class~='modal-container']")[0].classList.add('modal-show');
+    $("[class~='modal-container']")[0].classList.add("modal-show");
     //$(".modal-container").addClass("modal-show");
-    
   });
 
   //Event triggered when delete role button is clicked in  Member ACL Main Page
   $(".delete-role-main-page-button").on("click", (e) => {
     e.preventDefault();
     //alert(e.target.getAttribute('data-role-id'));
-    $("#selected_member_role").val(e.target.getAttribute('data-role-id'))
-    $("[class~='modal-container']")[0].classList.add('modal-show');
-    $(".modal-container").addClass("modal-show");
-    
+    $("#selected_member_role").val(e.target.getAttribute("data-role-id"));
+    $("[class~='modal-container']")[0].classList.add("modal-show");
   });
 
   //Event triggered when ok button is clicked  in the delete role modal in Member ACL Edit Role Page
   $(".modal-delete-role-ok-btn1").on("click", (e) => {
     e.preventDefault();
-    $(".modal-container").removeClass("modal-show");    
+    $(".modal-container").removeClass("modal-show");
     $("#action_type").val("delete_role");
     var $form = $(".update-role-form");
     console.log($form.serialize());
     $.post(
       ajax_obj.ajax_url,
       $form.serialize(),
-      function(data){
+      function (data) {
         console.log(data);
         alert(data.message);
       },
       "json"
-    ); 
+    );
   });
 
   //Event triggered when ok button is clicked  in the delete role modal in Member ACL Edit Role Page
   $(".modal-delete-role-ok-btn2").on("click", (e) => {
     e.preventDefault();
-    $(".modal-container").removeClass("modal-show");    
-    $("#action_type").val("delete_role");    
+    $(".modal-container").removeClass("modal-show");
+    $("#action_type").val("delete_role");
     var $form = $(".member-acl-role-form");
     $.post(
       ajax_obj.ajax_url,
       $form.serialize(),
-      function(data){
+      function (data) {
         console.log(data);
         alert(data.message);
       },
       "json"
-    ); 
+    );
   });
   //Event triggered when cancel button is clicked  in the delete role modal in Member ACL Edit Role Page
   $(".modal-cancel-btn").on("click", (e) => {
@@ -172,31 +172,56 @@ jQuery(document).ready(function ($) {
   });
 
   //Event triggered when Rename link is clicked in Member ACL Main Page
- 
+
   $(".rename-role-main-page-button").on("click", (e) => {
     e.preventDefault();
-    $("[class~='modal-container']")[1].classList.add('modal-show');
+    $("[class~='modal-container']")[1].classList.add("modal-show");
   });
 
   //Event triggered when ok is clicked in modal in Member ACL Main Page
- 
+
   $(".modal-rename-role-ok-button").on("click", (e) => {
     e.preventDefault();
     $(".modal-container").removeClass("modal-show");
     var rename_role_value = $("#rename-role-value-input").val();
     $("#rename_role_value").val(rename_role_value);
-    $("#action_type").val("rename_role");    
+    $("#action_type").val("rename_role");
     var $form = $(".member-acl-role-form");
     $.post(
       ajax_obj.ajax_url,
       $form.serialize(),
-      function(data){
+      function (data) {
         console.log(data);
         alert(data.message);
       },
       "json"
-    ); 
-  
+    );
+  });
+  //Event triggered when Clone link is clicked in Member ACL Main Page
+
+  $(".clone-role-main-page-button").on("click", (e) => {
+    e.preventDefault();
+    $("[class~='modal-container']")[2].classList.add("modal-show");
   });
 
+  //Event triggered when Clone Role Button is clicked in modal in Member ACL Main Page
+
+  $(".modal-clone-role-ok-button").on("click", (e) => {
+    e.preventDefault();
+    $(".modal-container").removeClass("modal-show");
+
+    var clone_role_value = $("#clone-role-name-input").val();
+    $("#clone_role_value").val(clone_role_value);
+    $("#action_type").val("clone_role");
+    var $form = $(".member-acl-role-form");
+    $.post(
+      ajax_obj.ajax_url,
+      $form.serialize(),
+      function (data) {
+        console.log(data);
+        alert(data.message);
+      },
+      "json"
+    );
+  });
 }); //End of jQuery assign as $ at the beginning of this file

@@ -176,7 +176,7 @@ class Plugin_Config
                         'ajax_url' => admin_url('admin-ajax.php'),
                     ],
 
-                ],
+                ],                
             ],
         ];
 

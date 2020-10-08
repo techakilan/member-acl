@@ -22,7 +22,7 @@
 use Member_ACL_Name_Space\Includes\Admin\AdminMenu\MemberAcl\Main_Menu;
 use Member_ACL_Name_Space\Includes\Admin\AdminSubMenu\MemberAcl\Add_Role_Menu;
 use Member_ACL_Name_Space\Includes\Admin\AdminSubMenu\MemberAcl\Edit_Role_Menu;
-use Member_ACL_Name_Space\Includes\Admin\Api\MemberAcl\{Add_New_Role, Update_Role_Capabilities};
+use Member_ACL_Name_Space\Includes\Admin\Api\MemberAcl\{Update_Role_Capabilities};
 use Member_ACL_Name_Space\Includes\Admin\Utility\MemberAcl\Scripts_Loader;
 use Member_ACL_Name_Space\Includes\Admin\Utility\MemberAcl\Setup_Roles_From_Config;
 use Member_ACL_Name_Space\Includes\Config\MemberAcl\Plugin_Config;
@@ -122,14 +122,12 @@ final class Member_ACL_Plugin
         $ajax_actions = [
             "main_role_capabilities_action",
             "update_role_capabilities_action",
+            'add_new_role_action',
+            
         ];
 
         (new Update_Role_Capabilities($ajax_actions))->register_add_action();
-        $ajax_actions = [
-            'add_new_role_action_nonce',
-        ];
-        (new Add_New_Role($ajax_actions))->register_add_action();
-
+       
     }
 }
 

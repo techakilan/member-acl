@@ -38,7 +38,7 @@ class Update_Role_Capabilities extends Admin_Ajax_Handler_Base
                     && wp_verify_nonce($_POST['update_role_capabilities_nonce'], 'update_role_capabilities_action_nonce')
                 )):
                 if (isset($_POST['action_type']) && $_POST['action_type'] == "delete_selected_roles") {
-                    $response = $this->remove_role($_POST['selected_member_roles']);
+                    $response = $this->remove_selected_roles($_POST['selected_member_roles']);
                 } else if (isset($_POST['action_type']) && $_POST['action_type'] == "delete_role") {
                     $response = $this->remove_role($_POST['selected_member_role']);
                 } else if (isset($_POST['action_type']) && $_POST['action_type'] == "add_role") {
@@ -55,7 +55,10 @@ class Update_Role_Capabilities extends Admin_Ajax_Handler_Base
                 if (isset($_POST['action_type']) && $_POST['action_type'] == "delete_role") {
                     $response = $this->remove_role($_POST['selected_member_role']);
                 } else if (isset($_POST['action_type']) && $_POST['action_type'] == "rename_role") {
+                    //Hardcode needs to be removed
                     $response = $this->rename_role('Test_All', $_POST['rename_role_value']);
+                } else if (isset($_POST['action_type']) && $_POST['action_type'] == "clone_role") {
+                    $response = $this->clone_role('Test_All',$_POST['clone_role_value']);
                 }
                 break;
             //Add role page actions
@@ -63,9 +66,9 @@ class Update_Role_Capabilities extends Admin_Ajax_Handler_Base
                     isset($_POST['add_new_role_nonce'])
                     && wp_verify_nonce($_POST['add_new_role_nonce'], 'add_new_role_action_nonce')
                 )):
-                if (isset($_POST['action_type']) && $_POST['action_type'] == "add_new_role") {
+                
                     $response = $this->add_new_role($_POST['new_role_name'], $_POST['role_capabilities']);
-                }
+               
                 break;
             default:
                 $response = [
@@ -171,21 +174,51 @@ class Update_Role_Capabilities extends Admin_Ajax_Handler_Base
         return $response;
     }
 
+    private function clone_role($role_name,$clone_role_name)
+    {
+        $selected_role = get_role($role_name);
+        
+        $clone_role_name = preg_replace('/\s{1,}/', '_', $clone_role_name);
+        $clone_display_name = esc_html__(trim($clone_role_name), Member_ACL_TEXTDOMAIN);
+        
+        $status = add_role($clone_role_name, $clone_display_name, $selected_role->capabilities);
+        if ($status == null) {
+            $response = [
+                'error' => true,
+                'message' => $clone_role_name,
+
+            ];
+            exit(json_encode($response));
+        }
+        $roles = get_editable_roles();
+        $roles_caps_master = Role_Capabilities_Master::get($roles);
+
+        $response = [
+            'error' => false,
+            'message' => 'Role Cloned successfully',
+            'role_name' => $role_name,
+            'clone_name' => $clone_role_name,
+        ];
+        return $response;
+    }
+
     private function remove_role($role_name)
     {
         $args = ['role' => $role_name];
         $users = get_users($args);
         foreach ($users as $user) {
-            $u->set_role('subscriber');
+            $user->set_role('subscriber');
         }
-        remove_role($role_name);
+        remove_role($role_name); 
         $response = [
             'error' => false,
             'message' => 'Role removed successfully',
             'role_name' => $role_name,
+            'users' => $users,
         ];
         return $response;
     }
+    
 
     private function remove_selected_roles(array $role_names)
     {
@@ -193,7 +226,7 @@ class Update_Role_Capabilities extends Admin_Ajax_Handler_Base
             $args = ['role' => $role_name];
             $users = get_users($args);
             foreach ($users as $user) {
-                $u->set_role('subscriber');
+                $ser->set_role('subscriber');
             }
             remove_role($role_name);
         }

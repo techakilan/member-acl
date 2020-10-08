@@ -3,18 +3,12 @@
 <h1> Member ACL Page </h1>
 <hr class="wp-header-end">
 <p id='ajax-message'></p> 
-
-<script>
-    //Hack to solve undecalred variable issue 
-    var select_member_role_trigger = null;
-    </script> 
-              
 <div id='capabilities' class="wrap">  
     
 
     <!-- <form method="post" action="options.php"> -->
 
-    <form methos="post" class="add-role-form" action="<?php echo admin_url('admin-ajax.php'); ?>">
+    <form method="post" class="add-role-form" action="<?php echo admin_url('admin-ajax.php'); ?>">
     <div class="wrap" >
                    <label><strong>New Role Name: </strong></label>
                    <input type='text' name='new_role_name' id='new_role_name' />

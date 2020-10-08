@@ -1,22 +1,4 @@
-<?php
-
-$roles_cap_master = $params['roles_caps_master'];
-if (isset($params['roles_caps_master']) && isset($params['roles_caps_master']['custom_roles'])) {
-    //var_dump($params['roles_caps_master']['custom_roles']);
-    
-    ?>
-    <h3>List of Custom Roles</h3>
-   
-    
-    <script>
-    //Hack to solve undecalred variable issue 
-    var select_member_role_trigger = null;
-    </script>
-    <?php
-    
-}
-
-?>
+<h3>List of Custom Roles</h3>
 <h2 class='screen-reader-text'>List of Custom Roles</h2>
 <form method="post" class="member-acl-role-form">
 
@@ -41,7 +23,8 @@ if (isset($params['roles_caps_master']) && isset($params['roles_caps_master']['c
         <input type="hidden" id="action_type" name="action_type" value=""/> 
         <input type="hidden" id="selected_member_role" name="selected_member_role" value=""/> 
         <input type="hidden" id="selected_member_roles" name="selected_member_roles" value=""/>
-        <input type="hidden" id="rename_role_value" name="rename_role_value" value=""/>
+        <input type="hidden" id="rename_role_value" name="rename_role_value" value=""/> 
+        <input type="hidden" id="clone_role_value" name="clone_role_value" value=""/>
     <?php
         
     foreach ($params['roles_caps_master']['custom_roles'] as $key=>$role) {
@@ -67,8 +50,13 @@ if (isset($params['roles_caps_master']) && isset($params['roles_caps_master']['c
                         </div>
                     <div class="row-actions">  
                     <span >
-                            <a href=<?php echo menu_page_url('member-acl-add-role',false); ?> class="edit-role-main-page-button" aria-label="Add New" aria-expanded="false">
+                            <a href=<?php echo menu_page_url('member-acl-add-role',false); ?> class="add-role-main-page-button" aria-label="" aria-expanded="false">
                                 Add New
+                            </button> | 
+                        </span> 
+                        <span >
+                            <a href="#" class="clone-role-main-page-button" aria-label="Clone Role" aria-expanded="false">
+                                Clone Role
                             </button> | 
                         </span> 
                         <span >
@@ -145,16 +133,15 @@ if (isset($params['roles_caps_master']) && isset($params['roles_caps_master']['c
 </div>
 <div class="modal-container">
     <div class="modal">
-        <h3>Featuret to be implemented as part of another plugin later</h3>
-        <p>
-        Will be implemented as a new plugin:
-          This feature requires changes to database during activation of plugin:
-        </p>
-       
+        <h3>Clone Role</h3>
+        <div>            
+            <p ><label>Role Name(Clone):</label><input type="text" id="clone-role-name-input" /></p>
+        </div>
+        
         <div class='modal-btn-container' >
-            <button class="modal-cancel-btn button button-primary">OK</button>            
+            <button class="modal-cancel-btn button button-primary">Cancel</button>
+            <button class="modal-clone-role-ok-button button-primary" data-rename-value="">Clone Role</button>
         </div>
     </div>
 </div>
-		
 			

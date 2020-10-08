@@ -11,21 +11,16 @@
 ?>
 <script>
     var roles_caps_master = <?php echo json_encode($roles_caps_master); ?>;
-    var select_member_role_trigger = null;
+    
     
 </script>
-<?php if(isset($_GET['selected_role_id'])){ ?>
-    <script>
-        select_member_role_trigger = <?= "'".$_GET['selected_role_id']."'";?>
-        </script>
-<?php }?>
+
 
     
               
 <div id='capabilities' class="wrap">  
     
 
-    <!-- <form method="post" action="options.php"> -->
 
     <form method="post" class="update-role-form">
     <div class="wrap" >
@@ -323,8 +318,7 @@
     <div class="modal">
         <h3>Role Updated</h3>
         <p>
-        Will be implemented later:
-          This feature requires changes to database during activation of plugin:
+          The role was updated successfully
         </p>
        
         <div class='modal-btn-container' >
